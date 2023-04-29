@@ -42,7 +42,7 @@ class _CategoryItemState extends State<CategoryItem> {
               offset: const Offset(0, 3),
             ),
           ],
-          color: widget.isSelected ? AppColors.primaryColor : Colors.white,
+          color: widget.isSelected ? AppColors.mainAppColorLight : Colors.white,
           borderRadius: BorderRadius.circular(30),
         ),
         child: Row(

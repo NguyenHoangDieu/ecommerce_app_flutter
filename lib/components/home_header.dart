@@ -24,10 +24,10 @@ class Header extends StatelessWidget {
             children: const [
               Icon(
                 Icons.location_on_sharp,
-                color: AppColors.primaryColor,
+                color: AppColors.warning,
               ),
               Text(
-                'London, England',
+                'Hai Bà Trưng, Hà Nội',
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
               ),
             ],

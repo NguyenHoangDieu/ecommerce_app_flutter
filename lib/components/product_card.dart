@@ -4,6 +4,8 @@ import 'package:ecommerce_app_flutter/utils/dimension.dart';
 import 'package:ecommerce_app_flutter/widgets/small_text.dart';
 import 'package:flutter/material.dart';
 
+import '../utils/common.dart';
+
 class ProductCard extends StatelessWidget {
   const ProductCard({Key? key}) : super(key: key);
 
@@ -57,11 +59,13 @@ class ProductCard extends StatelessWidget {
                       size: 12, fontWeight: FontWeight.w400
                   ),
                 ),
-                const Padding(
-                  padding: EdgeInsets.all(8.0),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
                   child: CustomText(
-                    text: '\$5.12',
-                    size: 20, fontWeight: FontWeight.w900,
+                    text: StringUtils.convertVnCurrency(35000),
+                    size: 18,
+                    fontWeight: FontWeight.w900,
+                    color: AppColors.mainAppColorLight,
                   ),
                 ),
               ],
@@ -70,8 +74,8 @@ class ProductCard extends StatelessWidget {
                 bottom: 8,
                 right: 8,
                 child: CircleAvatar(
-                    backgroundColor: AppColors.primaryColor,
-                    child: Icon(Icons.add))),
+                    backgroundColor: AppColors.mainAppColorLight,
+                    child: Icon(Icons.add, color: AppColors.mainAppTextWhite,))),
             Positioned(
                 top: 14,
                 right: 14,
@@ -80,13 +84,13 @@ class ProductCard extends StatelessWidget {
                       const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8),
-                    color: AppColors.secondaryColor.withOpacity(.8),
+                    color: AppColors.mainAppColorLight.withOpacity(.8),
                   ),
                   child: Row(
                     children: const [
-                      Icon(Icons.star, color: Colors.white),
+                      Icon(Icons.star, color: Colors.yellow, size: 14,),
                       Text(
-                        '4,5',
+                        ' 4,5',
                         style: TextStyle(color: Colors.white),
                       )
                     ],

@@ -18,17 +18,17 @@ class Categories extends StatelessWidget {
         children: [
           CategoryItem(
             iconData: 'assets/coffee-cup-coffee-svgrepo-com.svg',
-            title: 'Cappacino',
+            title: 'Cà phê',
             isSelected: true,
           ),
           CategoryItem(
             iconData: 'assets/coffee-svgrepo-com.svg',
-            title: 'Coca cola',
+            title: 'Nước hoa quả',
             isSelected: false,
           ),
           CategoryItem(
             iconData: 'assets/coffee-svgrepo-com.svg',
-            title: 'Expresso',
+            title: 'Trà',
             isSelected: false,
           )
         ],

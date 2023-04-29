@@ -23,7 +23,7 @@ class SpecialOfferCard extends StatelessWidget {
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
       ),
-      padding: EdgeInsets.all(4),
+      padding: const EdgeInsets.all(4),
       margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 8.0),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -48,20 +48,20 @@ class SpecialOfferCard extends StatelessWidget {
                       horizontal: 10, vertical: 4),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8),
-                    color: AppColors.secondaryColor.withOpacity(.7),
+                    color: AppColors.mainAppColorLight.withOpacity(.7),
                   ),
                   child: const Text(
-                    'Discover',
+                    'Khám phá',
                     style: TextStyle(color: Colors.white, fontSize: 16),
                   ),
                 ),
                 const Padding(
                   padding: EdgeInsets.only(left: 8.0),
                   child: Text(
-                    'Get three cups of tea for free when you register.',
+                    'Nhận ngay voucher giảm 100% cho 3 tách cà phê bất kỳ khi đăng ký lần đầu.',
                     maxLines: 3,
                     style: TextStyle(
-                        fontSize: 16, fontWeight: FontWeight.bold),
+                        fontSize: 14, fontWeight: FontWeight.bold),
                   ),
                 ),
               ],

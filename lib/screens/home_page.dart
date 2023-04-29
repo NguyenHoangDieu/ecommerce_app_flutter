@@ -25,35 +25,35 @@ class _HomePageScreenState extends State<HomePageScreen> {
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
-        selectedItemColor: AppColors.primaryColor,
+        selectedItemColor: AppColors.mainAppColor,
         selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
         unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
         items: [
           BottomNavigationBarItem(
               icon: SvgPicture.asset(
                 'assets/home-svgrepo-com.svg',
-                color: AppColors.primaryColor,
+                color: AppColors.mainAppColor,
                 height: 28,
               ),
-              label: 'Home'),
+              label: 'Trang chủ'),
           BottomNavigationBarItem(
               icon: SvgPicture.asset(
                 'assets/favourite-svgrepo-com.svg',
                 height: 28,
               ),
-              label: 'Favourite'),
+              label: 'Yêu thích'),
           BottomNavigationBarItem(
               icon: SvgPicture.asset(
                 'assets/bag-outline-svgrepo-com.svg',
                 height: 28,
               ),
-              label: 'Cart'),
+              label: 'Giỏ hàng'),
           BottomNavigationBarItem(
               icon: SvgPicture.asset(
                 'assets/profile-svgrepo-com.svg',
                 height: 28,
               ),
-              label: 'Profile'),
+              label: 'Cá nhân'),
         ],
       ),
       body: ListView(
@@ -73,7 +73,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
             padding: EdgeInsets.symmetric(vertical: 16, horizontal: 20),
             child: CustomText(
               text: 'Danh mục đồ uống',
-                color: AppColors.primaryColor,
+                color: AppColors.mainAppColor,
                 fontWeight: FontWeight.bold,
                 size: 24
             ),
@@ -91,12 +91,11 @@ class _HomePageScreenState extends State<HomePageScreen> {
           ),
           const Padding(
             padding: EdgeInsets.symmetric(vertical: 16, horizontal: 20),
-            child: Text(
-              'Special Offer',
-              style: TextStyle(
-                  color: Colors.black,
+            child: CustomText(
+              text: 'Đề xuất cho bạn',
+                  color: AppColors.mainAppColor,
                   fontWeight: FontWeight.w900,
-                  fontSize: 24),
+                  size: 24
             ),
           ),
           const SpecialOfferCard()
