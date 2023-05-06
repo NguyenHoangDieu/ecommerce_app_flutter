@@ -2,6 +2,8 @@
 import 'package:ecommerce_app_flutter/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 
+import '../utils/common.dart';
+import '../widgets/small_text.dart';
 import 'category_card.dart';
 
 class AddToCartCard extends StatelessWidget {
@@ -21,22 +23,23 @@ class AddToCartCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(30)),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: const [
-          Text('Add to cart     ',
+        children: [
+          const Text('Thêm vào giỏ hàng     ',
               style: TextStyle(
                   color: AppColors.whiteColor,
                   fontWeight: FontWeight.w700,
-                  fontSize: 18)),
-          SizedBox(
+                  fontSize: 16)),
+          const SizedBox(
               height: 20,
               child: VerticalDivider(
                 color: Colors.white,
               )),
-          Text('    \$ 14',
-              style: TextStyle(
-                  color: AppColors.whiteColor,
-                  fontWeight: FontWeight.w700,
-                  fontSize: 18)),
+          CustomText(
+              text: '    ${StringUtils.convertVnCurrency(35000)}',
+              color: AppColors.whiteColor,
+              fontWeight: FontWeight.w700,
+              size: 16
+          ),
         ],
       ),
     );
@@ -63,21 +66,21 @@ class SizeListSection extends StatelessWidget {
             child: CategoryItem(
                 isSelected: true,
                 iconData: null,
-                title: "Small"),
+                title: "Size nhỏ"),
           ),
           SizedBox(
             width: MediaQuery.of(context).size.width / 3,
             child: CategoryItem(
                 isSelected: false,
                 iconData: null,
-                title: "Medium"),
+                title: "Size vừa"),
           ),
           SizedBox(
             width: MediaQuery.of(context).size.width / 3,
             child: CategoryItem(
                 isSelected: false,
                 iconData: null,
-                title: "Large"),
+                title: "Size lớn"),
           ),
         ],
       ),

@@ -4,6 +4,7 @@ import 'package:ecommerce_app_flutter/utils/dimension.dart';
 import 'package:ecommerce_app_flutter/widgets/small_text.dart';
 import 'package:flutter/material.dart';
 
+import '../screens/product_detail.dart';
 import '../utils/common.dart';
 
 class ProductCard extends StatelessWidget {
@@ -13,7 +14,7 @@ class ProductCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // Navigator.push(context, MaterialPageRoute(builder: (context) => const ProducDetailsScreen()));
+        Navigator.push(context, MaterialPageRoute(builder: (context) => const ProducDetailsScreen()));
       },
       child: Container(
         decoration: BoxDecoration(
