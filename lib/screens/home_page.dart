@@ -19,6 +19,7 @@ import '../widgets/navigation_drawer_widget.dart';
 import '../widgets/share_widget.dart';
 
 class HomePageScreen extends StatefulWidget {
+  static const String routeName = "/home_page";
   const HomePageScreen({Key? key}) : super(key: key);
 
   @override

@@ -10,7 +10,7 @@ class SearchBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(right: 20.0, left: 20),
+      padding: const EdgeInsets.only(right: 20.0, left: 20),
       child: TextField(
         decoration: InputDecoration(
             prefixIcon: const Icon(

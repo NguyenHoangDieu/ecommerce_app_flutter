@@ -1,3 +1,4 @@
+import 'package:ecommerce_app_flutter/utils/app_colors.dart';
 import 'package:flutter/widgets.dart';
 
 class ImageSlider extends StatelessWidget {
@@ -15,9 +16,13 @@ class ImageSlider extends StatelessWidget {
         const Padding(
           padding: EdgeInsets.symmetric(horizontal: 30, vertical: 8.0),
           child: Text(
-            'Coffee so good,\n your taste buds with love',
+            'D-Coffee thơm ngon,\n đậm vị tình yêu!',
             textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 28, fontWeight: FontWeight.w900),
+            style: TextStyle(
+                fontSize: 28,
+              fontWeight: FontWeight.w900,
+              color: AppColors.mainAppColor
+            ),
           ),
         ),
         const Padding(

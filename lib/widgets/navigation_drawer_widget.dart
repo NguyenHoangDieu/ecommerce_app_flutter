@@ -1,6 +1,7 @@
 import 'package:ecommerce_app_flutter/widgets/small_text.dart';
 import 'package:flutter/material.dart';
 
+import '../screens/login_page.dart';
 import '../utils/app_colors.dart';
 import '../utils/dimension.dart';
 
@@ -69,7 +70,7 @@ class NavigationDrawerWidget extends StatelessWidget {
                 text: 'Đăng nhập',
                 icon: Icons.login,
                 onClick: (){
-
+                  Navigator.pushNamed(context, LoginScreen.routeName);
                 }
             )
           ],

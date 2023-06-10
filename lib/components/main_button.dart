@@ -1,5 +1,6 @@
 
 import 'package:ecommerce_app_flutter/utils/app_colors.dart';
+import 'package:ecommerce_app_flutter/widgets/small_text.dart';
 import 'package:flutter/material.dart';
 
 import '../screens/home_page.dart';
@@ -22,13 +23,14 @@ class MainButton extends StatelessWidget {
         height: 60,
         width: double.infinity,
         decoration: BoxDecoration(
-            color: AppColors.primaryColor,
+            color: AppColors.mainAppColor,
             borderRadius: BorderRadius.circular(30)),
-        child: const Text('Get Started',
-            style: TextStyle(
-                color: AppColors.whiteColor,
-                fontWeight: FontWeight.w700,
-                fontSize: 18)),
+        child: const CustomText(
+            text: 'BẮT ĐẦU',
+            color: AppColors.whiteColor,
+            fontWeight: FontWeight.w700,
+            size: 20
+        ),
       ),
     );
   }
