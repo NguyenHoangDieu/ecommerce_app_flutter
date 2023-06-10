@@ -65,21 +65,18 @@ class SizeListSection extends StatelessWidget {
             width: MediaQuery.of(context).size.width / 3,
             child: CategoryItem(
                 isSelected: true,
-                iconData: null,
                 title: "Size nhỏ"),
           ),
           SizedBox(
             width: MediaQuery.of(context).size.width / 3,
             child: CategoryItem(
                 isSelected: false,
-                iconData: null,
                 title: "Size vừa"),
           ),
           SizedBox(
             width: MediaQuery.of(context).size.width / 3,
             child: CategoryItem(
                 isSelected: false,
-                iconData: null,
                 title: "Size lớn"),
           ),
         ],

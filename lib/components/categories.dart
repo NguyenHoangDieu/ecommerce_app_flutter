@@ -17,20 +17,9 @@ class Categories extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         children: [
           CategoryItem(
-            iconData: 'assets/coffee-cup-coffee-svgrepo-com.svg',
             title: 'Cà phê',
             isSelected: true,
           ),
-          CategoryItem(
-            iconData: 'assets/coffee-svgrepo-com.svg',
-            title: 'Nước hoa quả',
-            isSelected: false,
-          ),
-          CategoryItem(
-            iconData: 'assets/coffee-svgrepo-com.svg',
-            title: 'Trà',
-            isSelected: false,
-          )
         ],
       ),
     );

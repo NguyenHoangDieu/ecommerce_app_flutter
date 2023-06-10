@@ -5,12 +5,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class CategoryItem extends StatefulWidget {
   bool isSelected ;
-  final String? iconData;
   final String title;
   CategoryItem(
       {Key? key,
       required this.isSelected,
-      required this.iconData,
       required this.title})
       : super(key: key);
 
@@ -48,12 +46,7 @@ class _CategoryItemState extends State<CategoryItem> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            widget.iconData == null
-                ? Container()
-                : SvgPicture.asset(widget.iconData!,
-                    height: 20,
-                    color:
-                        widget.isSelected ? AppColors.whiteColor : Colors.black),
+            const Icon(Icons.coffee),
             Text(
               '  ${widget.title}',
               style: TextStyle(
