@@ -20,4 +20,18 @@ class CategoryProvider{
     return result;
   }
 
+  static Future<DanhMucSanPham> getDetailCategory(int idDanhMuc) async{
+    DanhMucSanPham result = DanhMucSanPham();
+    final host = await Services.getApiLink();
+    final requestUrl = '$host/api/DanhMucSanPham/GetCategoryById?id=$idDanhMuc';
+    final response = await Services.doGet(requestUrl, "");
+    if (response.isSuccess()) {
+      final body = jsonDecode(response.body);
+      result.id = body['id'];
+      result.tenDanhMuc = body['tenDanhMuc'];
+      result.moTa = body['moTa'];
+    }
+    return result;
+  }
+
 }

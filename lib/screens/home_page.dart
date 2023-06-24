@@ -1,9 +1,13 @@
 import 'dart:io';
 
 import 'package:ecommerce_app_flutter/models/danh_muc_san_pham.dart';
+import 'package:ecommerce_app_flutter/models/user.dart';
 import 'package:ecommerce_app_flutter/provider/danhMucProvider.dart';
-import 'package:ecommerce_app_flutter/screens/product_detail.dart';
+import 'package:ecommerce_app_flutter/provider/userProvider.dart';
+import 'package:ecommerce_app_flutter/screens/detail_product.dart';
+import 'package:ecommerce_app_flutter/screens/profile_screen.dart';
 import 'package:ecommerce_app_flutter/utils/app_colors.dart';
+import 'package:ecommerce_app_flutter/utils/helper.dart';
 import 'package:ecommerce_app_flutter/widgets/small_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -17,6 +21,7 @@ import '../utils/common.dart';
 import '../utils/dimension.dart';
 import '../widgets/navigation_drawer_widget.dart';
 import '../widgets/share_widget.dart';
+import 'login_page.dart';
 
 class HomePageScreen extends StatefulWidget {
   static const String routeName = "/home_page";
@@ -31,10 +36,13 @@ class _HomePageScreenState extends State<HomePageScreen> {
   List<DanhMucSanPham> _listCategory = <DanhMucSanPham>[];
   int idDanhMuc = 0;
   int _currentPage = 0;
+  User currentUser = User();
   @override
   void initState() {
     super.initState();
     Future.delayed(Duration.zero, () async {
+      var currUser = await Helper.getCurrentUser();
+      currentUser = await UserProvider.profileUser(currUser.id??0, currUser.token??'');
       _listCategory = await CategoryProvider.fetchListDanhMuc();
       await productFetchListByCategory(idDanhMuc);
       setState(() {
@@ -43,6 +51,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
           _currentPage = 0;
           idDanhMuc = _listCategory[_currentPage].id!;
           productFetchListByCategory(idDanhMuc);
+          print(currUser.id);
         }
       });
     });
@@ -68,7 +77,118 @@ class _HomePageScreenState extends State<HomePageScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const NavigationDrawerWidget(),
+      drawer: Drawer(
+        child: Container(
+          padding: EdgeInsets.only(
+            top: Dimensions.getScaleHeight(20),
+            left: Dimensions.getScaleWidth(10),
+            right: Dimensions.getScaleWidth(45),
+          ),
+          color: AppColors.mainAppColor,
+          child: ListView(
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.only( left: Dimensions.getScaleWidth(20)),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    CircleAvatar(
+                      radius: 40,
+                      backgroundImage: const NetworkImage(
+                          'https://images.unsplash.com/photo-1640915550677-26ade06905fd?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwzN3x8fGVufDB8fHx8&auto=format&fit=crop&w=500&q=60'),
+                      child: InkWell(
+                          onTap: (){
+                            if(currentUser!= null){
+                              Navigator.pushNamed(context, ProfileScreen.routeName, arguments: currentUser.id);
+                            }
+                          },
+                         ),
+                    ),
+                    SizedBox(
+                      height: Dimensions.getScaleHeight(10),
+                    ),
+                    CustomText(
+                      text: currentUser.hoVaTen??"Khách hàng",
+                      color: Colors.white,
+
+                    )
+                  ],
+                ),
+              ),
+              SizedBox(height: Dimensions.getScaleHeight(20)),
+              const Divider(thickness: 1,color: Colors.white,),
+              buildMenuItem(
+                  text: 'Cá nhân',
+                  icon: Icons.person_outline_outlined,
+                  onClick: (){
+
+                  }
+              ),
+              buildMenuItem(
+                  text: 'Sản phẩm',
+                  icon: Icons.coffee,
+                  onClick: (){
+
+                  }
+              ),
+              buildMenuItem(
+                  text: 'Giỏ hàng',
+                  icon: Icons.shopping_cart,
+                  onClick: (){
+
+                  }
+              ),
+              const Divider(thickness: 1,color: Colors.white,),
+              currentUser.id == null ?
+              buildMenuItem(
+                  text: 'Đăng nhập',
+                  icon: Icons.login,
+                  onClick: (){
+                    Navigator.pushNamed(context, LoginScreen.routeName);
+                  }
+              ):
+              buildMenuItem(
+                  text: 'Đăng xuất',
+                  icon: Icons.logout,
+                  onClick: (){
+                    showDialog<String>(
+                      context: context,
+                      builder: (BuildContext context) =>
+                          AlertDialog(
+                            title: const Text(
+                                'ĐĂNG XUẤT KHỎI HỆ THỐNG'),
+                            content: const Text(
+                                'Bạn có chắc chắn không?'),
+                            actions: <Widget>[
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: const Text('Không',
+                                    style: TextStyle(
+                                        color: AppColors
+                                            .mainAppColor)),
+                              ),
+                              ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: AppColors
+                                      .mainAppColor,
+                                ),
+                                onPressed: () {
+                                  Helper.onSignOut(context);
+                                },
+                                child: const Text('Có'),
+                              ),
+                            ],
+                          ),
+                    );
+                  }
+              )
+            ],
+          ),
+        ),
+      ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         selectedItemColor: AppColors.mainAppColor,
@@ -168,8 +288,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                         Text(
                           '  ${category.tenDanhMuc}',
                           style: TextStyle(
-                              color:
-                              selected ? AppColors.whiteColor : Colors.black),
+                              color: selected ? AppColors.whiteColor : Colors.black),
                         )
                       ],
                     ),
@@ -199,7 +318,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                         var product = _listProducts[index];
                         return GestureDetector(
                           onTap: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => const ProducDetailsScreen()));
+                            Navigator.pushNamed(context, DetailProductScreen.routeName, arguments: product.id);
                           },
                           child: Container(
                             decoration: BoxDecoration(
@@ -306,4 +425,22 @@ class _HomePageScreenState extends State<HomePageScreen> {
       ),
     );
   }
+}
+
+Widget buildMenuItem({
+  required String text,
+  required IconData icon,
+  VoidCallback? onClick
+}){
+  const color = Colors.white;
+  const hoverColor = Colors.white70;
+  return ListTile(
+    leading: Icon(icon, color: color,),
+    title: CustomText(
+      text: text,
+      color: color,
+    ),
+    hoverColor: hoverColor,
+    onTap: onClick,
+  );
 }

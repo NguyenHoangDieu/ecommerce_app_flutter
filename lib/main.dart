@@ -1,6 +1,8 @@
+import 'package:ecommerce_app_flutter/screens/detail_product.dart';
 import 'package:ecommerce_app_flutter/screens/home_page.dart';
 import 'package:ecommerce_app_flutter/screens/intro_page.dart';
 import 'package:ecommerce_app_flutter/screens/login_page.dart';
+import 'package:ecommerce_app_flutter/screens/profile_screen.dart';
 import 'package:ecommerce_app_flutter/screens/register_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
@@ -20,6 +22,8 @@ class MyApp extends StatelessWidget{
         '/home_page': (context) => const HomePageScreen(),
         '/login': (context) => const LoginScreen(),
         '/register': (context) => const RegisterScreen(),
+        '/profile': (context) => const ProfileScreen(),
+        '/product_detail': (context) => const DetailProductScreen(),
       },
     );
   }

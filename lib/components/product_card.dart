@@ -8,7 +8,6 @@ import 'package:ecommerce_app_flutter/widgets/small_text.dart';
 import 'package:flutter/material.dart';
 
 import '../provider/sanPhamProvider.dart';
-import '../screens/product_detail.dart';
 import '../utils/common.dart';
 
 class ProductCard extends StatefulWidget {
@@ -63,7 +62,7 @@ class _ProductCardState extends State<ProductCard> {
             var product = _listProducts[index];
             return GestureDetector(
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => const ProducDetailsScreen()));
+
               },
               child: Container(
                 decoration: BoxDecoration(

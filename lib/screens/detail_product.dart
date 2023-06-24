@@ -1,14 +1,44 @@
-
-import 'package:ecommerce_app_flutter/utils/app_colors.dart';
-import 'package:ecommerce_app_flutter/utils/dimension.dart';
+import 'package:ecommerce_app_flutter/models/danh_muc_san_pham.dart';
+import 'package:ecommerce_app_flutter/models/san_pham.dart';
+import 'package:ecommerce_app_flutter/provider/danhMucProvider.dart';
+import 'package:ecommerce_app_flutter/provider/sanPhamProvider.dart';
 import 'package:flutter/material.dart';
 
 import '../components/details_screen_sections.dart';
+import '../utils/app_colors.dart';
+import '../utils/common.dart';
+import '../utils/dimension.dart';
+import '../utils/helper.dart';
+import '../widgets/small_text.dart';
 
-class ProducDetailsScreen extends StatelessWidget {
-  const ProducDetailsScreen({Key? key}) : super(key: key);
+class DetailProductScreen extends StatefulWidget {
+  static const String routeName = "/product_detail";
+  const DetailProductScreen({Key? key}) : super(key: key);
 
+  @override
+  State<DetailProductScreen> createState() => _DetailProductScreenState();
+}
 
+class _DetailProductScreenState extends State<DetailProductScreen> {
+
+  SanPham productDetail = SanPham();
+  DanhMucSanPham danhMucDetail = DanhMucSanPham();
+  int idSanPham = 0;
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration.zero, () async {
+      var currUser = await Helper.getCurrentUser();
+      var id = ModalRoute.of(context)!.settings.arguments as int;
+      idSanPham = id;
+      var sanPham = await ProductProvider.getDetailProduct(idSanPham);
+      var danhMuc = await CategoryProvider.getDetailCategory(sanPham.idDanhMuc??0);
+      setState(() {
+        productDetail = sanPham;
+        danhMucDetail = danhMuc;
+      });
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,70 +74,89 @@ class ProducDetailsScreen extends StatelessWidget {
                           borderRadius: BorderRadius.circular(30)),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: const [
-                          Text('Cà phê',
+                        children: [
+                          Text('${danhMucDetail.tenDanhMuc}',
+                              style: const TextStyle(
+                                  color: AppColors.darkColor,
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 16)),
+                          const Text('|',
                               style: TextStyle(
                                   color: AppColors.darkColor,
                                   fontWeight: FontWeight.w500,
                                   fontSize: 16)),
-                          SizedBox(
-                            height: 40,
-                            child: VerticalDivider(
-                              color: Colors.black45,
-                            ),
-                          ),
-                          Text('Chocolate',
-                              style: TextStyle(
-                                  color: AppColors.darkColor,
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 16)),
-                          SizedBox(
-                            height: 40,
-                            child: VerticalDivider(
-                              color: Colors.black45,
-                            ),
-                          ),
-                          Text('Sữa tươi',
-                              style: TextStyle(
+                          Text('${danhMucDetail.moTa}',
+                              style: const TextStyle(
                                   color: AppColors.darkColor,
                                   fontWeight: FontWeight.w500,
                                   fontSize: 16)),
                         ],
                       ),
                     ),
-                    const Padding(
-                      padding: EdgeInsets.only(left: 30.0, top: 20, bottom: 10),
-                      child: Text("Coffee size",
-                          style: TextStyle(
+                    Padding(
+                      padding: const EdgeInsets.only(left: 30.0, top: 20, bottom: 10),
+                      child: Text("${productDetail.tenSanPham}",
+                          style: const TextStyle(
                               color: AppColors.darkColor,
                               fontWeight: FontWeight.w700,
                               fontSize: 22)),
                     ),
                     const SizeListSection(),
-                    const Padding(
+                    Padding(
                       padding: EdgeInsets.only(
-                        left: 30.0,
-                        top: 10,
+                        left: Dimensions.getScaleWidth(30),
+                        top: Dimensions.getScaleHeight(10),
                       ),
-                      child: Text("Chi tiết",
+                      child: const Text("Chi tiết",
                           style: TextStyle(
                               color: AppColors.darkColor,
                               fontWeight: FontWeight.w700,
                               fontSize: 22)),
                     ),
-                    const Padding(
+                    Padding(
                       padding: EdgeInsets.only(
-                          left: 30.0, top: 10, bottom: 10, right: 30),
+                          left: Dimensions.getScaleWidth(30),
+                          top: Dimensions.getScaleHeight(10),
+                          bottom: Dimensions.getScaleHeight(10),
+                          right: Dimensions.getScaleWidth(30)),
                       child: Text(
-                          "Cà phê được chọn lọc nguyên chất kết hợp với chocolate và sữa tươi "
-                              "Ba Vì tạo nên 1 tuyệt phẩm thấm đẫm vị ngọt, béo và pha chút hương vị cà phê cho bạn một ngày dài năng động...",
+                          "${productDetail.moTa}",
                           textAlign: TextAlign.justify,
-                          style: TextStyle(
+                          style: const TextStyle(
                               color: AppColors.darkColor,
                               fontWeight: FontWeight.w400,
                               fontSize: 16)),
                     ),
-                    const AddToCartCard(),
+                    Container(
+                      margin: const EdgeInsets.only(left: 30, right: 30),
+                      alignment: Alignment.center,
+                      height: 60,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                          color: AppColors.primaryColor,
+                          borderRadius: BorderRadius.circular(30)),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text('Thêm vào giỏ hàng     ',
+                              style: TextStyle(
+                                  color: AppColors.whiteColor,
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 16)),
+                          const SizedBox(
+                              height: 20,
+                              child: VerticalDivider(
+                                color: Colors.white,
+                              )),
+                          CustomText(
+                              text: '    ${StringUtils.convertVnCurrency(productDetail.giaSanPham?.toDouble()??0)}',
+                              color: AppColors.whiteColor,
+                              fontWeight: FontWeight.w700,
+                              size: 16
+                          ),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
               );

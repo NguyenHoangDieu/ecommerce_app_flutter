@@ -8,13 +8,25 @@ class User {
 
   User({this.id, this.username, this.password, this.hoVaTen, this.dienThoai});
 
-  User.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    username = json['username'];
-    password = json['password'];
-    hoVaTen = json['hoVaTen'];
-    dienThoai = json['dienThoai'];
-    token = json['token'];
+  factory User.fromJson(Map<String, dynamic> json) {
+    var user = User()
+    ..id = json['id']
+    ..username = json['username']
+    ..password = json['password']
+    ..hoVaTen = json['hoVaTen']
+    ..dienThoai = json['dienThoai']
+    ..token = json['accessToken'];
+    return user;
+  }
+  factory User.fromLocalCache(Map<String, dynamic> json) {
+    var user = User()
+      ..id = json['id'] ?? 0
+      ..token = json['accessToken'] ?? ''
+      ..username = json['username'] ?? ''
+      ..password = json['password'] ?? ''
+      ..dienThoai = json['dienThoai']??''
+      ..hoVaTen = json['hoVaTen'] ?? '';
+    return user;
   }
 
   Map<String, dynamic> toJson() {
@@ -24,6 +36,7 @@ class User {
     data['password'] = this.password;
     data['hoVaTen'] = this.hoVaTen;
     data['dienThoai'] = this.dienThoai;
+    data['accessToken'] = this.token;
     return data;
   }
 }

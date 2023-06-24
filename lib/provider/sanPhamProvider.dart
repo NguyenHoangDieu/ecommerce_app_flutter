@@ -36,6 +36,24 @@ class ProductProvider{
     return result;
   }
 
+  static Future<SanPham> getDetailProduct(int idProduct) async{
+    SanPham result = SanPham();
+    final host = await Services.getApiLink();
+    final requestUrl = '$host/api/SanPham/GetSanPhamById?id=$idProduct';
+    final response = await Services.doGet(requestUrl, "");
+    if (response.isSuccess()) {
+      final body = jsonDecode(response.body);
+      result.id = body['id'];
+      result.tenSanPham = body['tenSanPham'];
+      result.idDanhMuc= body['idDanhMuc'];
+      result.moTa = body['moTa'];
+      result.giaSanPham = body['giaSanPham'];
+      result.idGiamGia = body['idGiamGia'];
+      result.idKhoHang = body['idKhoHang'];
+    }
+    return result;
+  }
+
 
 
 }

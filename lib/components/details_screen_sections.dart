@@ -1,4 +1,6 @@
 
+import 'dart:ffi';
+
 import 'package:ecommerce_app_flutter/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 
@@ -9,7 +11,10 @@ import 'category_card.dart';
 class AddToCartCard extends StatelessWidget {
   const AddToCartCard({
     Key? key,
+    required double giaSanPham
   }) : super(key: key);
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +40,7 @@ class AddToCartCard extends StatelessWidget {
                 color: Colors.white,
               )),
           CustomText(
-              text: '    ${StringUtils.convertVnCurrency(35000)}',
+              text: '    ${StringUtils.convertVnCurrency(0.0)}',
               color: AppColors.whiteColor,
               fontWeight: FontWeight.w700,
               size: 16
@@ -65,19 +70,13 @@ class SizeListSection extends StatelessWidget {
             width: MediaQuery.of(context).size.width / 3,
             child: CategoryItem(
                 isSelected: true,
-                title: "Size nhỏ"),
+                title: "Size M"),
           ),
           SizedBox(
             width: MediaQuery.of(context).size.width / 3,
             child: CategoryItem(
                 isSelected: false,
-                title: "Size vừa"),
-          ),
-          SizedBox(
-            width: MediaQuery.of(context).size.width / 3,
-            child: CategoryItem(
-                isSelected: false,
-                title: "Size lớn"),
+                title: "Size L"),
           ),
         ],
       ),
