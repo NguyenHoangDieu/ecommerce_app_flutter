@@ -3,6 +3,7 @@ class Cart {
   String name;
   double price;
   int count;
+  bool isCheck = false;
   String image;
   Cart({
     required this.productId,

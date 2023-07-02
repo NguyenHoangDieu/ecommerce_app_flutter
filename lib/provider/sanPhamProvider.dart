@@ -54,6 +54,4 @@ class ProductProvider{
     return result;
   }
 
-
-
 }

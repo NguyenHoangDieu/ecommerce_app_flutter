@@ -7,6 +7,7 @@ class CartChangeNotifier extends ChangeNotifier {
   List<Cart> _items = [];
   List<Cart> get items => _items;
   int get countProduct => _items.length;
+  int get countCheckedProduct => _items.where((item) => item.isCheck == true).length;
   set items(List<Cart> cart) {
     _items = cart;
   }
@@ -20,15 +21,11 @@ class CartChangeNotifier extends ChangeNotifier {
     if (isExisted) {
       _items.firstWhere((item) => item.productId == product.id).count += 1;
     } else {
-      // var cartItemPrice = product.giaSanPham ?? 0.0;
-      // if (product.giamGia != null && product.giamGia! > 0) {
-      //   cartItemPrice = cartItemPrice * (100 - product.giamGia!) / 100;
-      // }
       _items.add(Cart(
           image: product.image ?? "",
-          productId: product.id!,
+          productId: product.id??0,
           name: product.tenSanPham ?? "",
-          price: product.giaSanPham?.toDouble()??0,
+          price: product.giaSanPham?.toDouble() ?? 0.0,
           count: 1));
       notifyListeners();
     }
@@ -57,6 +54,19 @@ class CartChangeNotifier extends ChangeNotifier {
       _items.clear();
     } else {
       _items = _items.where((item) => !ids.contains(item.productId)).toList();
+    }
+    notifyListeners();
+  }
+
+  void check(int productId) {
+    var cart = _items.firstWhere((item) => item.productId == productId);
+    cart.isCheck = !cart.isCheck;
+    notifyListeners();
+  }
+
+  void checkAll(bool checked) {
+    for (var item in _items) {
+      item.isCheck = checked;
     }
     notifyListeners();
   }

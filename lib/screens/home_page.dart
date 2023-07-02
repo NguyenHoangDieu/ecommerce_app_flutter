@@ -8,6 +8,7 @@ import 'package:ecommerce_app_flutter/screens/detail_product.dart';
 import 'package:ecommerce_app_flutter/screens/profile_screen.dart';
 import 'package:ecommerce_app_flutter/utils/app_colors.dart';
 import 'package:ecommerce_app_flutter/utils/helper.dart';
+import 'package:ecommerce_app_flutter/widgets/loading_center_widget.dart';
 import 'package:ecommerce_app_flutter/widgets/small_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -33,6 +34,7 @@ class HomePageScreen extends StatefulWidget {
 
 class _HomePageScreenState extends State<HomePageScreen> {
   List<SanPham> _listProducts = [];
+  bool loading = true;
   List<DanhMucSanPham> _listCategory = <DanhMucSanPham>[];
   int idDanhMuc = 0;
   int _currentPage = 0;
@@ -46,6 +48,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
       _listCategory = await CategoryProvider.fetchListDanhMuc();
       await productFetchListByCategory(idDanhMuc);
       setState(() {
+        loading = false;
         _currentPage;
         if(_listCategory.isNotEmpty){
           _currentPage = 0;
@@ -65,6 +68,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
   }
   Future<void> productFetchListByCategory(int idDanhMuc) async {
     try {
+
       var apiProductPage = await ProductProvider.fetchListProductByCategory(idDanhMuc);
       var products = apiProductPage;
       setState(() {
@@ -99,9 +103,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                           'https://images.unsplash.com/photo-1640915550677-26ade06905fd?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwzN3x8fGVufDB8fHx8&auto=format&fit=crop&w=500&q=60'),
                       child: InkWell(
                           onTap: (){
-                            if(currentUser!= null){
-                              Navigator.pushNamed(context, ProfileScreen.routeName, arguments: currentUser.id);
-                            }
+                            Navigator.pushNamed(context, ProfileScreen.routeName, arguments: currentUser.id);
                           },
                          ),
                     ),
@@ -223,7 +225,9 @@ class _HomePageScreenState extends State<HomePageScreen> {
               label: 'Cá nhân'),
         ],
       ),
-      body: ListView(
+      body: loading?
+      const LoadingCenterWidget() :
+      ListView(
         children: [
           const Header(),
           const Padding(

@@ -2,13 +2,10 @@ import 'dart:convert';
 
 import 'package:ecommerce_app_flutter/models/user.dart';
 import 'package:ecommerce_app_flutter/provider/userProvider.dart';
+import 'package:ecommerce_app_flutter/screens/register_page.dart';
 import 'package:ecommerce_app_flutter/widgets/small_text.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-
-import '../components/image_slider.dart';
 import '../utils/app_colors.dart';
 import '../utils/dimension.dart';
 import '../widgets/share_widget.dart';
@@ -26,6 +23,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final userNameController = TextEditingController();
   final passwordController = TextEditingController();
   bool executing = false;
+  bool _obscureText = true;
   final formKey = GlobalKey<FormState>();
   final controller = PageController();
   @override
@@ -48,24 +46,31 @@ class _LoginScreenState extends State<LoginScreen> {
     data.username = userNameController.text;
     data.password = passwordController.text;
     var dataUser = await UserProvider.loginAuthenticate(data.username??'',data.password??'');
-    if(dataUser.id != 0 || dataUser.id != null){
-      result = true;
-    }
+    Map<String, Object?> myData = {
+      'result': dataUser['status'],
+      'idUser': dataUser['idUser'],
+      'token': dataUser['token']
+    };
+    result = myData['result'] as bool;
+    data.id = myData['idUser'] as int;
+    data.token = myData['token'] as String;
+    var info = await UserProvider.profileUser(data.id??0, data.token??'');
     setState(() {
       executing = false;
     });
     SharedWidget.showNotifToast(
-        result
+        myData['result'] != false
             ? 'Đăng nhập thành công'
-            : 'Đăng nhập thất bại',
+            : 'Tên tài khoản hoặc mật khẩu không chính xác',
         isSucceed: result);
     await Future.delayed(const Duration(seconds: 1));
     if(result == true){
       final prefs = await SharedPreferences.getInstance();
-      await prefs.setString('token', dataUser.token??'');
-      await prefs.setString('user', jsonEncode(dataUser.toJson()));
+      info.token = data.token;
+      await prefs.setString('token', info.token??'');
+      await prefs.setString('user', jsonEncode(info.toJson()));
       if (context.mounted) {
-        Navigator.pushNamed(context, HomePageScreen.routeName, arguments: dataUser);
+        Navigator.pushNamed(context, HomePageScreen.routeName, arguments: info);
         // Navigator.popAndPushNamed(context, HomePageScreen.routeName);
       }
     }
@@ -129,20 +134,21 @@ class _LoginScreenState extends State<LoginScreen> {
                             }
                             return null;
                           },
-                          textAlign: TextAlign.center,
                           style: TextStyle(
                               height: 1,
                               fontSize: Dimensions.getScaleHeight(18),
                               color: AppColors.mainAppColor),
                           decoration: InputDecoration(
-                              hintText: 'Tên đăng nhập',
+                              labelText: 'Tên đăng nhập',
                               filled: true,
                               fillColor: AppColors.mainAppTextWhite.withOpacity(0.6),
-                              hintStyle: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: AppColors.mainAppColor,
+                              labelStyle: TextStyle(
+                                  color: AppColors.mainAppColor.withOpacity(0.5),
                                   fontSize: Dimensions.getScaleHeight(18.0)),
                               alignLabelWithHint: true,
+                              contentPadding: EdgeInsets.only(
+                                left: Dimensions.getScaleWidth(20),
+                              ),
                               border: const OutlineInputBorder(
                                 borderRadius:
                                 BorderRadius.all(Radius.circular(45)),
@@ -154,6 +160,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     SizedBox(
                       width: Dimensions.getScaleWidth(300),
                       child: TextFormField(
+                          obscureText: _obscureText,
                           textAlignVertical: TextAlignVertical.center,
                           controller: passwordController,
                           validator: (value) {
@@ -162,50 +169,106 @@ class _LoginScreenState extends State<LoginScreen> {
                             }
                             return null;
                           },
-                          textAlign: TextAlign.center,
                           style: TextStyle(
                               height: 1,
                               fontSize: Dimensions.getScaleHeight(18),
                               color: AppColors.mainAppColor),
                           decoration: InputDecoration(
-                              hintText: 'Mật khẩu',
+                              suffixIcon: IconButton(
+                                padding: EdgeInsets.zero,
+                                icon: Icon(
+                                  _obscureText ? Icons.visibility : Icons.visibility_off,
+                                  color: _obscureText? Colors.grey : AppColors.mainAppColor,
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    _obscureText = !_obscureText;
+                                  });
+                                },
+                              ),
+                              labelText: 'Mật khẩu',
                               filled: true,
                               fillColor: AppColors.mainAppTextWhite.withOpacity(0.6),
-                              hintStyle: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: AppColors.mainAppColor,
+                              labelStyle: TextStyle(
+                                  color: AppColors.mainAppColor.withOpacity(0.5),
                                   fontSize: Dimensions.getScaleHeight(18.0)),
                               alignLabelWithHint: true,
+                              contentPadding: EdgeInsets.only(
+                                  left: Dimensions.getScaleWidth(20),
+                              ),
                               border: const OutlineInputBorder(
                                 borderRadius:
                                 BorderRadius.all(Radius.circular(45)),
                               ))),
                     ),
                     SizedBox(
-                      height: Dimensions.getScaleHeight(20),
+                      height: Dimensions.getScaleHeight(50),
                     ),
-                    SizedBox(
-                      width: Dimensions.getScaleWidth(200),
-                      child: GestureDetector(
-                        onTap: () {
-                          onLogin();
-                        },
-                        child: Container(
-                          margin: const EdgeInsets.only(left: 30, right: 30),
-                          alignment: Alignment.center,
-                          height: 60,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                              color: AppColors.mainAppColor,
-                              borderRadius: BorderRadius.circular(30)),
-                          child: const CustomText(
-                              text: 'Đăng nhập',
-                              color: AppColors.whiteColor,
-                              fontWeight: FontWeight.w700,
-                              size: 20
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          width: Dimensions.getScaleWidth(120),
+                          height: Dimensions.getScaleHeight(60),
+                          child: GestureDetector(
+                            onTap: () {
+                              onLogin();
+                            },
+                            child: Container(
+                              // margin: const EdgeInsets.only(left: 30, right: 30),
+                              alignment: Alignment.center,
+                              height: 60,
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                  color: AppColors.mainAppColor,
+                                  borderRadius: BorderRadius.circular(20)),
+                              child: executing
+                                  ? SizedBox(
+                                width: Dimensions.getScaleHeight(20),
+                                height: Dimensions.getScaleHeight(20),
+                                child: CircularProgressIndicator(
+                                    strokeWidth:
+                                    Dimensions.getScaleHeight(2.0),
+                                    color: Colors.white),
+                              )
+                                  : const CustomText(
+                                  text: 'Đăng nhập',
+                                  color: AppColors.whiteColor,
+                                  fontWeight: FontWeight.w700,
+                                  size: 18
+                              ),
+                            ),
                           ),
                         ),
-                      ),
+                        SizedBox(
+                          width: Dimensions.getScaleWidth(20),
+                        ),
+                        SizedBox(
+                          width: Dimensions.getScaleWidth(120),
+                          height: Dimensions.getScaleHeight(60),
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.pushNamed(context, RegisterScreen.routeName);
+                            },
+                            child: Container(
+                              // margin: const EdgeInsets.only(left: 30, right: 30),
+                              alignment: Alignment.center,
+                              height: 60,
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                  color: AppColors.mainAppColor,
+                                  borderRadius: BorderRadius.circular(20)),
+                              child: const CustomText(
+                                  text: 'Đăng ký',
+                                  color: AppColors.whiteColor,
+                                  fontWeight: FontWeight.w700,
+                                  size: 18
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     )
                   ],
                 )),
