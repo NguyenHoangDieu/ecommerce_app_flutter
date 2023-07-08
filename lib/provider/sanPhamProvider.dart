@@ -47,6 +47,7 @@ class ProductProvider{
       result.tenSanPham = body['tenSanPham'];
       result.idDanhMuc= body['idDanhMuc'];
       result.moTa = body['moTa'];
+      result.image = body['image'];
       result.giaSanPham = body['giaSanPham'];
       result.idGiamGia = body['idGiamGia'];
       result.idKhoHang = body['idKhoHang'];

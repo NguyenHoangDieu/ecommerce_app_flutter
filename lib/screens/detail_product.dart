@@ -4,6 +4,7 @@ import 'package:ecommerce_app_flutter/models/san_pham.dart';
 import 'package:ecommerce_app_flutter/models/user.dart';
 import 'package:ecommerce_app_flutter/provider/danhMucProvider.dart';
 import 'package:ecommerce_app_flutter/provider/sanPhamProvider.dart';
+import 'package:ecommerce_app_flutter/utils/api.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -19,6 +20,7 @@ import '../widgets/share_widget.dart';
 import '../widgets/small_text.dart';
 import 'cart/cart_page.dart';
 import 'cart/cart_sqflte.dart';
+import 'login_page.dart';
 
 class DetailProductScreen extends StatefulWidget {
   static const String routeName = "/product_detail";
@@ -34,6 +36,7 @@ class _DetailProductScreenState extends State<DetailProductScreen> {
   DanhMucSanPham danhMucDetail = DanhMucSanPham();
   int idSanPham = 0;
   var user = User();
+  String api = '';
   @override
   void initState() {
     super.initState();
@@ -42,6 +45,7 @@ class _DetailProductScreenState extends State<DetailProductScreen> {
       user = currUser;
       var id = ModalRoute.of(context)!.settings.arguments as int;
       idSanPham = id;
+      api = await Services.getApiLink();
       var sanPham = await ProductProvider.getDetailProduct(idSanPham);
       var danhMuc = await CategoryProvider.getDetailCategory(sanPham.idDanhMuc??0);
       setState(() {
@@ -58,7 +62,7 @@ class _DetailProductScreenState extends State<DetailProductScreen> {
       return Scaffold(
         body: Stack(children: [
           Image.network(
-              'https://media.istockphoto.com/photos/cup-of-cafe-latte-with-coffee-beans-and-cinnamon-sticks-picture-id505168330?b=1&k=20&m=505168330&s=170667a&w=0&h=jJTePtpYZLR3M2OULX5yoARW7deTuAUlwpAoS4OriJg=',
+              '$api${productDetail.image}',
               height: MediaQuery
                   .of(context)
                   .size
@@ -178,6 +182,7 @@ class _DetailProductScreenState extends State<DetailProductScreen> {
                           ),
                         ),
                         onTap: () {
+                          user.id != null ?
                           CartSqlite.addToCart(productDetail, user.id??0).then((result) {
                             if (result > 0) {
                               cartNotif.addItem(productDetail);
@@ -187,7 +192,7 @@ class _DetailProductScreenState extends State<DetailProductScreen> {
                                   builder: (context) {
                                     return Container(
                                         width: MediaQuery.of(context).size.width,
-                                        height: Dimensions.getScaleHeight(220.0),
+                                        height: Dimensions.getScaleHeight(250.0),
                                         margin: EdgeInsets.symmetric(
                                             horizontal: Dimensions.getScaleWidth(16.0)),
                                         decoration: BoxDecoration(
@@ -214,30 +219,54 @@ class _DetailProductScreenState extends State<DetailProductScreen> {
                                                   DividerWidget(
                                                       isVertical: false,
                                                       size: Dimensions.getScaleWidth(5.0)),
-                                                  CustomText(
-                                                      size: 14,
+                                                  const CustomText(
+                                                      size: 16,
                                                       text: "Đã thêm sản phẩm vào giỏ hàng thành công",
-                                                      color: Colors.green.shade500)
+                                                      color: AppColors.primaryColor)
                                                 ],
                                               ),
                                             ),
                                             Container(
-                                              padding: EdgeInsets.symmetric(horizontal: Dimensions.getScaleWidth(10.0)),
+                                              padding: EdgeInsets.all(Dimensions.getScaleWidth(10)),
+                                              margin: EdgeInsets.only(
+                                                  left: Dimensions.getScaleWidth(20),
+                                                  right: Dimensions.getScaleWidth(20)
+                                              ),
+                                              decoration: BoxDecoration(
+                                                color: AppColors.mainAppColor,
+                                                border: Border.all(color: AppColors.mainAppColor),
+                                                borderRadius: BorderRadius.circular(10)
+                                              ),
                                               child: Row(
                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
-                                                  Expanded(
-                                                    flex: 3,
-                                                    child: SizedBox(
-                                                      width: double.infinity,
-                                                      height: Dimensions.getScaleHeight(70.0),
-                                                      child:
-                                                      CachedNetworkImage(
-                                                        imageUrl: productDetail.image ?? 'https://media.istockphoto.com/photos/cup-of-cafe-latte-with-coffee-beans-and-cinnamon-sticks-picture-id505168330?b=1&k=20&m=505168330&s=170667a&w=0&h=jJTePtpYZLR3M2OULX5yoARW7deTuAUlwpAoS4OriJg=',
-                                                        fit: BoxFit.contain,
+                                                  Container(
+                                                      width: Dimensions.getScaleWidth(90),
+                                                      height: Dimensions.getScaleHeight(80),
+                                                      margin: EdgeInsets.only(
+                                                        left: Dimensions.getScaleWidth(20),
+                                                        right: Dimensions.getScaleWidth(10)
                                                       ),
-                                                    ),
-                                                  ),
+                                                      decoration: BoxDecoration(
+                                                        color: AppColors.silver,
+                                                        borderRadius: BorderRadius.circular(10),
+                                                        border: Border.all(color: AppColors.whiteColor),
+                                                        image: DecorationImage(
+                                                          fit: BoxFit.cover,
+                                                          image: NetworkImage('$api${productDetail.image}'),
+                                                        ),
+                                                      )),
+                                                  // Expanded(
+                                                  //   flex: 3,
+                                                  //   child: SizedBox(
+                                                  //     width: double.infinity,
+                                                  //     height: Dimensions.getScaleHeight(70.0),
+                                                  //     child: CachedNetworkImage(
+                                                  //       imageUrl: '$api${productDetail.image}',
+                                                  //       fit: BoxFit.contain,
+                                                  //     ),
+                                                  //   ),
+                                                  // ),
                                                   Expanded(
                                                     flex: 7,
                                                     child: Container(
@@ -248,16 +277,18 @@ class _DetailProductScreenState extends State<DetailProductScreen> {
                                                         children: [
                                                           CustomText(
                                                               size: 16,
-                                                              text: productDetail.tenSanPham ??= ""),
+                                                              text: productDetail.tenSanPham ??= "",
+                                                            color: AppColors.whiteColor,
+                                                          ),
                                                           DividerWidget(
                                                               size: Dimensions
                                                                   .getScaleWidth(
                                                                   10.0)),
                                                             CustomText(
-                                                                fontWeight:
-                                                                FontWeight.bold,
-                                                                text: StringUtils.convertVnCurrency(
-                                                                    productDetail.giaSanPham?.toDouble() ?? 0),
+                                                                color: AppColors.whiteColor,
+                                                                fontWeight: FontWeight.bold,
+                                                                text: StringUtils.convertVnCurrency(productDetail.giaSanPham?.toDouble() ?? 0,
+                                                                ),
                                                             )
                                                         ],
                                                       ),
@@ -274,6 +305,10 @@ class _DetailProductScreenState extends State<DetailProductScreen> {
                                                   horizontal: Dimensions.getScaleWidth(10.0)),
                                               width: Dimensions.getScaleWidth(180),
                                               child: ElevatedButton(
+                                                style: ElevatedButton.styleFrom(
+                                                    foregroundColor: AppColors.mainAppColor,
+                                                  backgroundColor: AppColors.primaryColor
+                                                ),
                                                 onPressed: () {
                                                   Navigator.pushNamed(context, CartPage.routeName, arguments: productDetail.id);
                                                 },
@@ -291,7 +326,8 @@ class _DetailProductScreenState extends State<DetailProductScreen> {
                                   'Có lỗi xảy ra! Vui lòng thử lại sau',
                                   isSucceed: false);
                             }
-                          });
+                          }):
+                          Navigator.pushNamed(context, LoginScreen.routeName);
                         },
                       ),
                     ],

@@ -28,7 +28,7 @@ class Services{
   }
   static Future<String> getApiLink() async {
     var url = "";
-    url = 'http://172.19.201.33:8089';
+    url = 'http://192.168.1.178:8089';
     return url;
   }
 }

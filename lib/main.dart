@@ -1,4 +1,6 @@
+import 'package:ecommerce_app_flutter/screens/cart/cart_confirm_page.dart';
 import 'package:ecommerce_app_flutter/screens/cart/cart_page.dart';
+import 'package:ecommerce_app_flutter/screens/cart/cart_success_page.dart';
 import 'package:ecommerce_app_flutter/screens/detail_product.dart';
 import 'package:ecommerce_app_flutter/screens/home_page.dart';
 import 'package:ecommerce_app_flutter/screens/intro_page.dart';
@@ -33,7 +35,9 @@ class MyApp extends StatelessWidget{
           '/register': (context) => const RegisterScreen(),
           '/profile': (context) => const ProfileScreen(),
           '/product_detail': (context) => const DetailProductScreen(),
-          '/cart_page_screen': (context) => const CartPage()
+          '/cart_page_screen': (context) => const CartPage(),
+          '/cart_confirm_screen': (context) => const CartConfirmPage(),
+          '/cart_success_screen': (context) => const CartSuccessPage()
         },
       ),
     );

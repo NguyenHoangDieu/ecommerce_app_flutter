@@ -1,4 +1,5 @@
 import 'package:ecommerce_app_flutter/screens/home_page.dart';
+import 'package:ecommerce_app_flutter/utils/api.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -15,6 +16,7 @@ import '../../widgets/devider_widget.dart';
 import '../../widgets/empty_list_widget.dart';
 import '../../widgets/share_widget.dart';
 import '../../widgets/small_text.dart';
+import 'cart_confirm_page.dart';
 import 'cart_sqflte.dart';
 import 'cart_tile.dart';
 
@@ -29,6 +31,7 @@ class CartPage extends StatefulWidget {
 class _CartPageState extends State<CartPage> {
   bool? _checkAllProduct = false;
   var user = User();
+  var api = '';
   var totalIsChecked = 1.0;
   bool? isChecked = true;
   List<Cart> idListItemChecked = [];
@@ -38,6 +41,7 @@ class _CartPageState extends State<CartPage> {
     super.initState();
     Future.delayed(Duration.zero, () async {
       var currUser = await Helper.getCurrentUser();
+      api = await Services.getApiLink();
       user = currUser;
       setState(() {
       });
@@ -48,6 +52,7 @@ class _CartPageState extends State<CartPage> {
     return Consumer<CartChangeNotifier>(
         builder: (context, cartNotif, child){
           return  Scaffold(
+            appBar: SharedWidget.getAppBar('Giỏ hàng', context),
               bottomNavigationBar: Container(
                 width: MediaQuery.of(context).size.width,
                 padding: EdgeInsets.all(Dimensions.getScaleHeight(16)),
@@ -83,7 +88,7 @@ class _CartPageState extends State<CartPage> {
                       'deliveryMethod': 1,
                     };
                     if(idListItemChecked.isNotEmpty){
-                      // Navigator.pushNamed(context, CartConfirmPage.routeName, arguments: myData);
+                      Navigator.pushNamed(context, CartConfirmPage.routeName, arguments: myData);
                     }
                     else{
                       SharedWidget.showNotifToast('Vui lòng chọn sản phẩm', isSucceed: false);
@@ -127,7 +132,11 @@ class _CartPageState extends State<CartPage> {
                   ),
                 ),
               ),
-              body: Stack(children: [
+              body: Stack(
+                  children: [
+                    SizedBox(
+                      height: Dimensions.getScaleHeight(80),
+                    ),
                 cartNotif.items.isEmpty
                     ? Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -201,7 +210,7 @@ class _CartPageState extends State<CartPage> {
 
                         return CartTile(
                             data: cartData,
-                            domain: '',
+                            domain: api,
                             addToCart: (bool isIncrement) {
                               var cartItem = cartData;
                               var isSucceed = true;

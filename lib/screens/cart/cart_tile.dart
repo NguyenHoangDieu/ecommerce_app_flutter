@@ -1,5 +1,5 @@
 import 'package:ecommerce_app_flutter/models/san_pham.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:ecommerce_app_flutter/utils/api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
@@ -94,9 +94,9 @@ class CartTile extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: AppColors.silver,
                     borderRadius: BorderRadius.circular(borderRadius),
-                    image: const DecorationImage(
+                    image: DecorationImage(
                       fit: BoxFit.cover,
-                      image: NetworkImage('https://media.istockphoto.com/photos/cup-of-cafe-latte-with-coffee-beans-and-cinnamon-sticks-picture-id505168330?b=1&k=20&m=505168330&s=170667a&w=0&h=jJTePtpYZLR3M2OULX5yoARW7deTuAUlwpAoS4OriJg='),
+                      image: NetworkImage('$domain${data.image}'),
                     ),
                   )),
               // Info
@@ -152,6 +152,7 @@ class CartTile extends StatelessWidget {
                               ),
                               child: const CustomText(
                                 text: '-',
+                                color: Colors.white,
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
@@ -163,6 +164,7 @@ class CartTile extends StatelessWidget {
                               fit: BoxFit.scaleDown,
                               child: CustomText(
                                 text: '${data.count}',
+                                color: Colors.white,
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
@@ -173,7 +175,7 @@ class CartTile extends StatelessWidget {
                             },
                             child: Container(
                               width: Dimensions.getScaleWidth(26.0),
-                              height: Dimensions.getScaleWidth(40.0),
+
                               alignment: Alignment.center,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(
@@ -182,6 +184,7 @@ class CartTile extends StatelessWidget {
                               ),
                               child: const CustomText(
                                 text: '+',
+                                color: Colors.white,
                                 fontWeight: FontWeight.w500,
                               ),
                             ),

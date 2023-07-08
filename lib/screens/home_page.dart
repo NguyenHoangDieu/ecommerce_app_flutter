@@ -4,8 +4,10 @@ import 'package:ecommerce_app_flutter/models/danh_muc_san_pham.dart';
 import 'package:ecommerce_app_flutter/models/user.dart';
 import 'package:ecommerce_app_flutter/provider/danhMucProvider.dart';
 import 'package:ecommerce_app_flutter/provider/userProvider.dart';
+import 'package:ecommerce_app_flutter/screens/cart/cart_page.dart';
 import 'package:ecommerce_app_flutter/screens/detail_product.dart';
 import 'package:ecommerce_app_flutter/screens/profile_screen.dart';
+import 'package:ecommerce_app_flutter/utils/api.dart';
 import 'package:ecommerce_app_flutter/utils/app_colors.dart';
 import 'package:ecommerce_app_flutter/utils/helper.dart';
 import 'package:ecommerce_app_flutter/widgets/loading_center_widget.dart';
@@ -37,6 +39,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
   bool loading = true;
   List<DanhMucSanPham> _listCategory = <DanhMucSanPham>[];
   int idDanhMuc = 0;
+  String api = '';
   int _currentPage = 0;
   User currentUser = User();
   @override
@@ -45,6 +48,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
     Future.delayed(Duration.zero, () async {
       var currUser = await Helper.getCurrentUser();
       currentUser = await UserProvider.profileUser(currUser.id??0, currUser.token??'');
+      api = await Services.getApiLink();
       _listCategory = await CategoryProvider.fetchListDanhMuc();
       await productFetchListByCategory(idDanhMuc);
       setState(() {
@@ -138,7 +142,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                   text: 'Giỏ hàng',
                   icon: Icons.shopping_cart,
                   onClick: (){
-
+                    Navigator.pushNamed(context, CartPage.routeName);
                   }
               ),
               const Divider(thickness: 1,color: Colors.white,),
@@ -349,10 +353,10 @@ class _HomePageScreenState extends State<HomePageScreen> {
                                       height: MediaQuery.of(context).size.width / 2 - 48,
                                       decoration: BoxDecoration(
                                           borderRadius: BorderRadius.circular(20),
-                                          image: const DecorationImage(
+                                          image: DecorationImage(
                                               fit: BoxFit.cover,
                                               image: NetworkImage(
-                                                  'https://media.istockphoto.com/photos/cup-of-cafe-latte-with-coffee-beans-and-cinnamon-sticks-picture-id505168330?b=1&k=20&m=505168330&s=170667a&w=0&h=jJTePtpYZLR3M2OULX5yoARW7deTuAUlwpAoS4OriJg='))),
+                                                  '$api${product.image}'))),
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.only(left: 8.0, bottom: 4),
