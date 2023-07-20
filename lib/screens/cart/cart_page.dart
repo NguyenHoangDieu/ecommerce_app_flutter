@@ -1,4 +1,5 @@
 import 'package:ecommerce_app_flutter/screens/home_page.dart';
+import 'package:ecommerce_app_flutter/screens/product_list_page.dart';
 import 'package:ecommerce_app_flutter/utils/api.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -149,9 +150,12 @@ class _CartPageState extends State<CartPage> {
                     SizedBox(
                       width: Dimensions.getScaleWidth(200.0),
                       child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(),
+                          style: ElevatedButton.styleFrom(
+                            foregroundColor: AppColors.mainAppColor,
+                            backgroundColor: AppColors.mainAppColor
+                          ),
                           onPressed: () {
-                            // Navigator.pushNamed(context, SanPhamScreen.routeName);
+                            Navigator.pushNamed(context, ProductListScreen.routeName);
                           },
                           child: const CustomText(
                               text: 'MUA SẮM', color: Colors.white)),

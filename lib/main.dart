@@ -1,3 +1,4 @@
+import 'package:ecommerce_app_flutter/screens/bill/bill_list_page.dart';
 import 'package:ecommerce_app_flutter/screens/cart/cart_confirm_page.dart';
 import 'package:ecommerce_app_flutter/screens/cart/cart_page.dart';
 import 'package:ecommerce_app_flutter/screens/cart/cart_success_page.dart';
@@ -5,6 +6,7 @@ import 'package:ecommerce_app_flutter/screens/detail_product.dart';
 import 'package:ecommerce_app_flutter/screens/home_page.dart';
 import 'package:ecommerce_app_flutter/screens/intro_page.dart';
 import 'package:ecommerce_app_flutter/screens/login_page.dart';
+import 'package:ecommerce_app_flutter/screens/product_list_page.dart';
 import 'package:ecommerce_app_flutter/screens/profile_screen.dart';
 import 'package:ecommerce_app_flutter/screens/register_page.dart';
 import 'package:ecommerce_app_flutter/state_maneger/cart_changeNotifier.dart';
@@ -37,7 +39,9 @@ class MyApp extends StatelessWidget{
           '/product_detail': (context) => const DetailProductScreen(),
           '/cart_page_screen': (context) => const CartPage(),
           '/cart_confirm_screen': (context) => const CartConfirmPage(),
-          '/cart_success_screen': (context) => const CartSuccessPage()
+          '/cart_success_screen': (context) => const CartSuccessPage(),
+          '/product_list_screen': (context) => const ProductListScreen(),
+          '/bill_list_page': (context) => const ListOrderScreen()
         },
       ),
     );

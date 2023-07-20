@@ -21,6 +21,21 @@ class ProductProvider{
     return result;
   }
 
+  static Future<List<SanPham>> fetchListProductBySearch(String? tenSanPham) async {
+    List<SanPham> result = [];
+    final host = await Services.getApiLink();
+    final requestUrl = '$host/api/SanPham/SearchSanPham?tenSanPham=$tenSanPham';
+    final response = await Services.doGet(requestUrl, "");
+    if (response.isSuccess()) {
+      final body = jsonDecode(response.body);
+      List<dynamic> listItem = body['data'];
+      for (var item in listItem) {
+        result.add(SanPham.fromJson(item));
+      }
+    }
+    return result;
+  }
+
   static Future<List<SanPham>> fetchListProductByCategory(int idDanhMuc) async {
     List<SanPham> result = [];
     final host = await Services.getApiLink();

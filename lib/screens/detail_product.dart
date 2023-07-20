@@ -63,10 +63,7 @@ class _DetailProductScreenState extends State<DetailProductScreen> {
         body: Stack(children: [
           Image.network(
               '$api${productDetail.image}',
-              height: MediaQuery
-                  .of(context)
-                  .size
-                  .height * 0.8,
+              height: MediaQuery.of(context).size.height * 0.8,
               width: double.infinity,
               fit: BoxFit.cover),
           DraggableScrollableSheet(
@@ -123,7 +120,6 @@ class _DetailProductScreenState extends State<DetailProductScreen> {
                                 fontWeight: FontWeight.w700,
                                 fontSize: 22)),
                       ),
-                      const SizeListSection(),
                       Padding(
                         padding: EdgeInsets.only(
                           left: Dimensions.getScaleWidth(30),
@@ -139,7 +135,7 @@ class _DetailProductScreenState extends State<DetailProductScreen> {
                         padding: EdgeInsets.only(
                             left: Dimensions.getScaleWidth(30),
                             top: Dimensions.getScaleHeight(10),
-                            bottom: Dimensions.getScaleHeight(10),
+                            bottom: Dimensions.getScaleHeight(20),
                             right: Dimensions.getScaleWidth(30)),
                         child: Text(
                             "${productDetail.moTa}",

@@ -1,3 +1,5 @@
+import 'package:ecommerce_app_flutter/screens/bill/bill_list_page.dart';
+import 'package:ecommerce_app_flutter/screens/product_list_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -46,7 +48,7 @@ class _CartSuccessPageState extends State<CartSuccessPage> {
               width: MediaQuery.of(context).size.width,
               child: ElevatedButton(
                   onPressed: () {
-                    // Navigator.pushNamed(context, DetailDonHangScreen.routeName, arguments: orderId);
+                    Navigator.pushNamed(context, ListOrderScreen.routeName);
                   },
                   style: ElevatedButton.styleFrom(
                     foregroundColor: AppColors.mainAppColor,
@@ -68,7 +70,7 @@ class _CartSuccessPageState extends State<CartSuccessPage> {
               width: MediaQuery.of(context).size.width,
               child: ElevatedButton(
                 onPressed: () {
-                  // Navigator.pushNamed(context, ProductIndexPage.routeName);
+                  Navigator.pushNamed(context, ProductListScreen.routeName);
                 },
                 style: ElevatedButton.styleFrom(
                   padding: EdgeInsets.symmetric(
@@ -101,7 +103,7 @@ class _CartSuccessPageState extends State<CartSuccessPage> {
               width: Dimensions.getScaleHeight(124),
               height: Dimensions.getScaleHeight(124),
               margin: EdgeInsets.only(bottom: Dimensions.getScaleHeight(32.0)),
-              child: SvgPicture.asset('assets/icons/Success.svg'),
+              child: const Icon(Icons.done_outline_sharp, size: 110,color: AppColors.silver,),
             ),
             const CustomText(
               text: 'ĐẶT HÀNG THÀNH CÔNG',

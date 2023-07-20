@@ -166,7 +166,7 @@ class _CartConfirmPageState extends State<CartConfirmPage> {
                           top: Dimensions.getScaleHeight(10)
                       ),
                       width: MediaQuery.of(context).size.width,
-                      height: Dimensions.getScaleHeight(100),
+                      height: Dimensions.getScaleHeight(120),
                       decoration: BoxDecoration(
                         color: AppColors.silver,
                         borderRadius: BorderRadius.circular(10),

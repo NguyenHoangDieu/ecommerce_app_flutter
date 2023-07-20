@@ -6,7 +6,7 @@ class DonHang {
   int? donGia;
   int? id;
   int? idUser;
-  DateTime? ngayMua;
+  String? ngayMua;
   String? typeNhanHang;
   String? typeThanhToan;
   String? trangThai;
@@ -14,7 +14,7 @@ class DonHang {
   double? giaTamTinh;
   double? giaDonHang;
   int? idKhoHang;
-  DateTime? createdAt;
+  String? createdAt;
 
   DonHang(
       {this.listProduct,
@@ -34,12 +34,6 @@ class DonHang {
       });
 
   DonHang.fromJson(Map<String, dynamic> json) {
-    // if (json['chiTietDonHang'] != null) {
-    //   chiTietDonHang = <ChiTietDonHang>[];
-    //   json['chiTietDonHang'].forEach((v) {
-    //     chiTietDonHang!.add(new ChiTietDonHang.fromJson(v));
-    //   });
-    // }
     soLuong = json['soLuong'];
     donGia = json['donGia'];
     id = json['id'];
@@ -73,28 +67,3 @@ class DonHang {
     return data;
   }
 }
-
-// class ChiTietDonHang {
-//   int? id;
-//   int? idDonHang;
-//   int? idSanPham;
-//   int? soLuong;
-//
-//   ChiTietDonHang({this.id, this.idDonHang, this.idSanPham, this.soLuong});
-//
-//   ChiTietDonHang.fromJson(Map<String, dynamic> json) {
-//     id = json['id'];
-//     idDonHang = json['idDonHang'];
-//     idSanPham = json['idSanPham'];
-//     soLuong = json['soLuong'];
-//   }
-//
-//   Map<String, dynamic> toJson() {
-//     final Map<String, dynamic> data = new Map<String, dynamic>();
-//     data['id'] = this.id;
-//     data['idDonHang'] = this.idDonHang;
-//     data['idSanPham'] = this.idSanPham;
-//     data['soLuong'] = this.soLuong;
-//     return data;
-//   }
-// }

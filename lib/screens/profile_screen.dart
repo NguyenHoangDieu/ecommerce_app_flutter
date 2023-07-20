@@ -3,6 +3,7 @@ import 'package:ecommerce_app_flutter/provider/userProvider.dart';
 import 'package:ecommerce_app_flutter/screens/login_page.dart';
 import 'package:ecommerce_app_flutter/utils/app_colors.dart';
 import 'package:ecommerce_app_flutter/utils/dimension.dart';
+import 'package:ecommerce_app_flutter/widgets/share_widget.dart';
 import 'package:ecommerce_app_flutter/widgets/small_text.dart';
 import 'package:flutter/material.dart';
 
@@ -35,7 +36,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
+      appBar: SharedWidget.getAppBar('Hồ sơ', context),
       body: Container(
         width: Dimensions.screenWidth,
         decoration: const BoxDecoration(
